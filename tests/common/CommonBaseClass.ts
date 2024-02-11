@@ -29,4 +29,14 @@ export class CommonBaseClass {
       );
     }
   }
+
+  async clickCtaButton(pageLocaotor: Locator): Promise<void> {
+    if (await pageLocaotor.isVisible()) {
+      await pageLocaotor.scrollIntoViewIfNeeded();
+      await pageLocaotor.click();
+      console.log(`The ${pageLocaotor} is clicked`);
+    } else {
+      console.log(`The ${pageLocaotor} is not clicked as not visible`);
+    }
+  }
 }
