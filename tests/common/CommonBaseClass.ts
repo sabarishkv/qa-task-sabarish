@@ -1,6 +1,7 @@
 import { Locator, Page, devices } from "@playwright/test";
 
-let onlyPrice: number[]=[], onlyNumber: number[];
+export let onlyPrice: number[] = [],
+  onlyNumber: number[];
 
 export class CommonBaseClass {
   protected page: Page;
@@ -42,13 +43,14 @@ export class CommonBaseClass {
     }
   }
 
-
   async textStringReplace(stringArray: string[]): Promise<void> {
     console.log(`The Array length is ${stringArray.length}`);
     for (let splitArray = 0; splitArray < stringArray.length; splitArray++) {
-      console.log(`${stringArray[splitArray]} is the text in the index:  ${splitArray}`)
-      let updatedString: string = stringArray[splitArray].replace("$","");
-      console.log(`${updatedString} is the in the index. ${splitArray}`)
+      console.log(
+        `${stringArray[splitArray]} is the text in the index:  ${splitArray}`
+      );
+      let updatedString: string = stringArray[splitArray].replace("$", "");
+      console.log(`${updatedString} is the in the index. ${splitArray}`);
       onlyPrice.push(parseFloat(updatedString));
     }
     for (let indexVal = 0; indexVal < onlyPrice.length; indexVal++) {
@@ -62,5 +64,28 @@ export class CommonBaseClass {
       console.log(`${stringArray[splitArray]} is pushed to Only Number`);
     }
     return onlyNumber;
+  }
+
+  async arrayLowToHightCompare(numberArray: number[]): Promise<boolean> {
+    for (let i = 0; i < numberArray.length - 1; i++) {
+      console.log(
+        `${numberArray[i]} is being compared with ${numberArray[i + 1]}`
+      );
+      if (numberArray[i] > numberArray[i + 1]) {
+        return false;
+      }
+    }
+    return true;
+  }
+  async arrayHighToLowCompare(numberArray: number[]): Promise<boolean> {
+    for (let i = 0; i < numberArray.length - 1; i++) {
+      console.log(
+        `${numberArray[i]} is being compared with ${numberArray[i + 1]}`
+      );
+      if (numberArray[i] > numberArray[i + 1]) {
+        return true;
+      }
+    }
+    return false;
   }
 }

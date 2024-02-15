@@ -1,3 +1,5 @@
+import { expect } from "@playwright/test";
+import { onlyPrice } from "../../common/CommonBaseClass";
 import { SauceLabsBase } from "./SauceLabsBase";
 
 const productsPageValidations: string[] = [
@@ -11,7 +13,8 @@ const productsPageValidations: string[] = [
 ];
 
 let productPrices: string[] = [],
-  indexVal: number, productPriceNumbers: number[] = [];
+  indexVal: number,
+  productPriceNumbers: number[] = [];
 
 export class ProductsPage extends SauceLabsBase {
   filterDropdown = () => this.page.locator("//select[contains(@class,'sort')]");
@@ -20,6 +23,8 @@ export class ProductsPage extends SauceLabsBase {
   allProductsPrice = () =>
     this.page.locator(`//div[contains(@class,'item_price')]`);
   allProductString = () => "//div[contains(@class,'item_price')]";
+  activeFilterOptionValue = () => "//span[contains(@class,'active_option')]";
+
   async validatingProductsPageElements(): Promise<void> {
     console.log("The elements validation is started on the Products page");
     await this.pageElementsLoadSuccess(productsPageValidations);
@@ -50,4 +55,48 @@ export class ProductsPage extends SauceLabsBase {
     console.log("Price split is successful");
   }
 
+  async validateLowToHigh(): Promise<any> {
+    console.log(
+      "Entering the low to high method to compare the values in a array low to high "
+    );
+    let result = await this.arrayLowToHightCompare(onlyPrice);
+    if (result) {
+      console.log("The array is in ascending order. i.e Low to High");
+    } else {
+      console.log(
+        "The array is not in ascending order. i.e the filter is failing"
+      );
+      expect(false).toBeTruthy();
+    }
+  }
+  async validateHighToLow(): Promise<any> {
+    console.log(
+      "Entering the High to low method to compare the values in a array High to Low "
+    );
+    let result = await this.arrayHighToLowCompare(onlyPrice);
+    if (result) {
+      console.log("The array is in Descending order. i.e High to Low");
+    } else {
+      console.log(
+        "The array is not in Descending order. i.e the filter is failing"
+      );
+      expect(false).toBeTruthy();
+    }
+  }
+
+  async validateTheProductsPriceInOrder(): Promise<void> {
+    let activeFilterOption: string | null = await this.page
+      .locator("//span[contains(@class,'active_option')]")
+      .textContent();
+      console.log(`The option selected is ${activeFilterOption} over the filter`)
+    if (activeFilterOption == "Price (low to high)") {
+      console.log(`Executing the method validateLowToHigh()`);
+      this.validateLowToHigh();
+    } else if (activeFilterOption == "Price (high to low)") {
+      console.log(`Executing the method validateHighToLow()`);
+      this.validateHighToLow();
+    } else {
+      console.log("Not validating for the Naming order");
+    }
+  }
 }

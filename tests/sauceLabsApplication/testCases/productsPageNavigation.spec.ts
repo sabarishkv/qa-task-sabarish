@@ -1,4 +1,4 @@
-import { test, expect, Page } from "@playwright/test";
+import { test } from "@playwright/test";
 import { filterOption, pageUrlSauceLabs } from "../testData/testData";
 import { SauceLabsBase } from "../pages/SauceLabsBase";
 import { LoginSauceLabsPage } from "../pages/LoginSauceLabsPage";
@@ -21,11 +21,15 @@ test("Executing an e2e TC to login  to Sauce Labs", async ({ page }) => {
 
   await test.step("Products page validation", async () => {
     await productsPage.validatingProductsPageElements();
-    await productsPage.changeFilterOption(filterOption.lowToHigh);
+    await productsPage.changeFilterOption(filterOption.highToLow);
     await productsPage.storeProductsPrices();
   });
 
   await test.step("The Price is split for the Products", async () => {
     await productsPage.storeTheUpdatedProducts();
+  });
+
+  await test.step("Comparing the Price is as per the filter", async () => {
+    await productsPage.validateTheProductsPriceInOrder();
   });
 });
