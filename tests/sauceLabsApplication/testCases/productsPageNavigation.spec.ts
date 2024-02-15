@@ -22,6 +22,9 @@ test("Executing an e2e TC to login  to Sauce Labs", async ({ page }) => {
   await test.step("Products page validation", async () => {
     await productsPage.validatingProductsPageElements();
     await productsPage.changeFilterOption(filterOption.lowToHigh);
+    await page.pause()
+    await productsPage.storeProductsPrices();
+    await page.pause();
   });
 
 });

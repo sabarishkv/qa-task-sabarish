@@ -10,9 +10,16 @@ const productsPageValidations: string[] = [
   "//div[contains(normalize-space(),'Terms of Service') and contains(@class,'footer_copy')]",
 ];
 
+let productPrices: string[] = [],
+  indexVal: number;
+
 export class ProductsPage extends SauceLabsBase {
   filterDropdown = () => this.page.locator("//select[contains(@class,'sort')]");
-
+  productsPrice = () =>
+    this.page.locator(`(//div[contains(@class,'item_price')])[${indexVal}]`);
+  allProductsPrice = () =>
+    this.page.locator(`//div[contains(@class,'item_price')]`);
+  allProductString = () => "//div[contains(@class,'item_price')]";
   async validatingProductsPageElements(): Promise<void> {
     console.log("The elements validation is started on the Products page");
     await this.pageElementsLoadSuccess(productsPageValidations);
@@ -23,6 +30,15 @@ export class ProductsPage extends SauceLabsBase {
     console.log("Updating the filter option");
     await this.filterDropdown().selectOption(updateOptionLabel);
     console.log(`${updateOptionLabel} to update successful over the filter`);
+  }
 
+  async storeProductsPrices(): Promise<void> {
+    console.log("Entered the method to Store Products Prices");
+    await this.storeLocatorValuesToArrayTrail(
+      this.allProductString(),
+      productPrices
+    );
+    console.log("Products Prices are stored successful");
+    await this.displayTheArrayValues(productPrices);
   }
 }
