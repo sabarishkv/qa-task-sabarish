@@ -1,4 +1,4 @@
-import { test, expect, Page } from "@playwright/test";
+import { test } from "@playwright/test";
 import { pageUrlSauceLabs } from "../testData/testData";
 import { SauceLabsBase } from "../pages/SauceLabsBase";
 import { LoginSauceLabsPage } from "../pages/LoginSauceLabsPage";
@@ -17,7 +17,6 @@ test("Executing an e2e TC to login  to Sauce Labs", async ({ page }) => {
     await loginSauceLabsPage.clickLogin();
   });
 
-  await test.step("New test step", async () => {
-    await page.pause();
-  });
+  
+  
 });

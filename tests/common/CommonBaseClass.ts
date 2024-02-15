@@ -1,5 +1,7 @@
 import { Locator, Page, devices } from "@playwright/test";
 
+let onlyPrice: number[]=[], onlyNumber: number[];
+
 export class CommonBaseClass {
   protected page: Page;
 
@@ -38,5 +40,27 @@ export class CommonBaseClass {
     } else {
       console.log(`The ${pageLocaotor} is not clicked as not visible`);
     }
+  }
+
+
+  async textStringReplace(stringArray: string[]): Promise<void> {
+    console.log(`The Array length is ${stringArray.length}`);
+    for (let splitArray = 0; splitArray < stringArray.length; splitArray++) {
+      console.log(`${stringArray[splitArray]} is the text in the index:  ${splitArray}`)
+      let updatedString: string = stringArray[splitArray].replace("$","");
+      console.log(`${updatedString} is the in the index. ${splitArray}`)
+      onlyPrice.push(parseFloat(updatedString));
+    }
+    for (let indexVal = 0; indexVal < onlyPrice.length; indexVal++) {
+      console.log(`${onlyPrice[indexVal]} is in the index: ${indexVal}`);
+    }
+  }
+
+  async arrayStringToNumber(stringArray: string[]): Promise<number[]> {
+    for (let splitArray = 0; splitArray < stringArray.length; splitArray++) {
+      onlyNumber.push(parseInt(stringArray[splitArray]));
+      console.log(`${stringArray[splitArray]} is pushed to Only Number`);
+    }
+    return onlyNumber;
   }
 }

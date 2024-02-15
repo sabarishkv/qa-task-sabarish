@@ -11,7 +11,7 @@ const productsPageValidations: string[] = [
 ];
 
 let productPrices: string[] = [],
-  indexVal: number;
+  indexVal: number, productPriceNumbers: number[] = [];
 
 export class ProductsPage extends SauceLabsBase {
   filterDropdown = () => this.page.locator("//select[contains(@class,'sort')]");
@@ -41,4 +41,13 @@ export class ProductsPage extends SauceLabsBase {
     console.log("Products Prices are stored successful");
     await this.displayTheArrayValues(productPrices);
   }
+
+  async storeTheUpdatedProducts(): Promise<void> {
+    console.log(
+      "Entering the method to separate the dollar and store the String"
+    );
+    await this.textStringReplace(productPrices);
+    console.log("Price split is successful");
+  }
+
 }
