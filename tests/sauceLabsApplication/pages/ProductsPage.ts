@@ -130,11 +130,10 @@ export class ProductsPage extends SauceLabsBase {
     } else if (activeFilterOption == "Name (A to Z)") {
       console.log(`Executing the method validateAtoZ()`);
       await this.validateAtoZ();
-    } 
-    else if (activeFilterOption == "Name (Z to A)") {
-        console.log(`Executing the method validateZtoA()`);
-        await this.validateZtoA();
-    }else {
+    } else if (activeFilterOption == "Name (Z to A)") {
+      console.log(`Executing the method validateZtoA()`);
+      await this.validateZtoA();
+    } else {
       console.log(" Can be default or option not present");
     }
   }
@@ -165,7 +164,9 @@ export class ProductsPage extends SauceLabsBase {
     for (let i = 0; i < strings.length - 1; i++) {
       let currentString = strings[i];
       let nextString = strings[i + 1];
-      console.log(`The strings ${currentString} and the ${nextString} is being compared to verify whether the are in A to Z for the loop : ${i}`)
+      console.log(
+        `The strings ${currentString} and the ${nextString} is being compared to verify whether the are in A to Z for the loop : ${i}`
+      );
 
       // Compare the current string with the next string
       if (currentString.localeCompare(nextString) > 0) {
@@ -179,7 +180,9 @@ export class ProductsPage extends SauceLabsBase {
     for (let i = 0; i < strings.length - 1; i++) {
       let currentString = strings[i];
       let nextString = strings[i + 1];
-      console.log(`The strings ${currentString} and the ${nextString} is being compared to verify whether they are in Z to A for the loop : ${i}`)
+      console.log(
+        `The strings ${currentString} and the ${nextString} is being compared to verify whether they are in Z to A for the loop : ${i}`
+      );
 
       // Compare the current string with the next string
       if (currentString.localeCompare(nextString) < 0) {
