@@ -33,8 +33,7 @@ test("Executing an e2e TC to login  to Sauce Labs", async ({ page }) => {
     await productsPage.validateTheProductsPriceInOrder();
   });
   await test.step("The Price is split for the Products", async () => {
-    await productsPage.changeFilterOption(filterOption.nameAtoZ);
-    await page.pause();
+    await productsPage.changeFilterOption(filterOption.nameZtoA);
     await productsPage.storeAvailableProductsTittles();
   });
 

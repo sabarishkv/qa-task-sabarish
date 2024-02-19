@@ -91,12 +91,26 @@ export class ProductsPage extends SauceLabsBase {
     console.log(
       "Entering the alphabetical order to validate the strings A to Z"
     );
-    let result = await this.areStringsInAlphabeticalOrder(titles);
+    let result = await this.areStringsInAlphabeticalOrderAtoZ(titles);
     if (result) {
       console.log("The array is in alphabetical order. i.e A to Z");
     } else {
       console.log(
         "The array is not in alphabetical order from A to Z. i.e the filter is failing"
+      );
+      expect(false).toBeTruthy();
+    }
+  }
+  async validateZtoA(): Promise<any> {
+    console.log(
+      "Entering the alphabetical order to validate the strings Z to A"
+    );
+    let result = await this.areStringsInAlphabeticalOrderZtoA(titles);
+    if (result) {
+      console.log("The array is in alphabetical order. i.e Z to A");
+    } else {
+      console.log(
+        "The array is not in alphabetical order from Z to A. i.e the filter is failing"
       );
       expect(false).toBeTruthy();
     }
@@ -116,8 +130,12 @@ export class ProductsPage extends SauceLabsBase {
     } else if (activeFilterOption == "Name (A to Z)") {
       console.log(`Executing the method validateAtoZ()`);
       await this.validateAtoZ();
-    } else {
-      console.log("Not validating for the Naming order");
+    } 
+    else if (activeFilterOption == "Name (Z to A)") {
+        console.log(`Executing the method validateZtoA()`);
+        await this.validateZtoA();
+    }else {
+      console.log(" Can be default or option not present");
     }
   }
 
@@ -143,14 +161,28 @@ export class ProductsPage extends SauceLabsBase {
     console.log("All available array values are printed exiting the method");
   }
 
-  async areStringsInAlphabeticalOrder(strings: string[]): Promise<boolean> {
+  async areStringsInAlphabeticalOrderAtoZ(strings: string[]): Promise<boolean> {
     for (let i = 0; i < strings.length - 1; i++) {
       let currentString = strings[i];
       let nextString = strings[i + 1];
-      console.log(`The strings ${currentString} and the ${nextString} is being compared for the loop : ${i}`)
+      console.log(`The strings ${currentString} and the ${nextString} is being compared to verify whether the are in A to Z for the loop : ${i}`)
 
       // Compare the current string with the next string
       if (currentString.localeCompare(nextString) > 0) {
+        return false; // Not in alphabetical order
+      }
+    }
+
+    return true; // All strings are in alphabetical order
+  }
+  async areStringsInAlphabeticalOrderZtoA(strings: string[]): Promise<boolean> {
+    for (let i = 0; i < strings.length - 1; i++) {
+      let currentString = strings[i];
+      let nextString = strings[i + 1];
+      console.log(`The strings ${currentString} and the ${nextString} is being compared to verify whether they are in Z to A for the loop : ${i}`)
+
+      // Compare the current string with the next string
+      if (currentString.localeCompare(nextString) < 0) {
         return false; // Not in alphabetical order
       }
     }
