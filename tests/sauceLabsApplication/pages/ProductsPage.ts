@@ -14,7 +14,8 @@ const productsPageValidations: string[] = [
 
 let productPrices: string[] = [],
   indexVal: number,
-  productPriceNumbers: number[] = [];
+  productPriceNumbers: number[] = [],
+  titles: string[] = [];
 
 export class ProductsPage extends SauceLabsBase {
   filterDropdown = () => this.page.locator("//select[contains(@class,'sort')]");
@@ -24,6 +25,8 @@ export class ProductsPage extends SauceLabsBase {
     this.page.locator(`//div[contains(@class,'item_price')]`);
   allProductString = () => "//div[contains(@class,'item_price')]";
   activeFilterOptionValue = () => "//span[contains(@class,'active_option')]";
+  nameTittles = () =>
+    this.page.locator("//div[@id='inventory_container']//a/div");
 
   async validatingProductsPageElements(): Promise<void> {
     console.log("The elements validation is started on the Products page");
@@ -84,19 +87,74 @@ export class ProductsPage extends SauceLabsBase {
     }
   }
 
+  async validateAtoZ(): Promise<any> {
+    console.log(
+      "Entering the alphabetical order to validate the strings A to Z"
+    );
+    let result = await this.areStringsInAlphabeticalOrder(titles);
+    if (result) {
+      console.log("The array is in alphabetical order. i.e A to Z");
+    } else {
+      console.log(
+        "The array is not in alphabetical order from A to Z. i.e the filter is failing"
+      );
+      expect(false).toBeTruthy();
+    }
+  }
+
   async validateTheProductsPriceInOrder(): Promise<void> {
     let activeFilterOption: string | null = await this.page
       .locator("//span[contains(@class,'active_option')]")
       .textContent();
-      console.log(`The option selected is ${activeFilterOption} over the filter`)
+    console.log(`The option selected is ${activeFilterOption} over the filter`);
     if (activeFilterOption == "Price (low to high)") {
       console.log(`Executing the method validateLowToHigh()`);
-      this.validateLowToHigh();
+      await this.validateLowToHigh();
     } else if (activeFilterOption == "Price (high to low)") {
       console.log(`Executing the method validateHighToLow()`);
-      this.validateHighToLow();
+      await this.validateHighToLow();
+    } else if (activeFilterOption == "Name (A to Z)") {
+      console.log(`Executing the method validateAtoZ()`);
+      await this.validateAtoZ();
     } else {
       console.log("Not validating for the Naming order");
     }
+  }
+
+  async storeAvailableProductsTittles(): Promise<void> {
+    let countTest: any = await this.nameTittles().count();
+    console.log("Count of Tittles available" + countTest);
+
+    for (let title = 1; title <= countTest; title++) {
+      let productName: any = await this.page
+        .locator(`(//div[@id='inventory_container']//a/div)[${title}]`)
+        .textContent();
+      titles.push(productName);
+    }
+  }
+
+  async verifyTheStoredProductNames(): Promise<void> {
+    console.log("Enter the method to print the store names of the tittles");
+    for (let pTittle = 0; pTittle < titles.length; pTittle++) {
+      console.log(
+        `The names available in the index value of ${pTittle} is: ${titles[pTittle]}`
+      );
+    }
+    console.log("All available array values are printed exiting the method");
+  }
+
+  async areStringsInAlphabeticalOrder(strings: string[]): Promise<boolean> {
+    for (let i = 0; i < strings.length - 1; i++) {
+      let currentString = strings[i];
+      let nextString = strings[i + 1];
+      console.log(`The strings ${currentString} and the ${nextString} is being compared for the loop : ${i}`)
+
+      // Compare the current string with the next string
+      if (currentString.localeCompare(nextString) > 0) {
+        return false; // Not in alphabetical order
+      }
+    }
+
+    return true; // All strings are in alphabetical order
   }
 }

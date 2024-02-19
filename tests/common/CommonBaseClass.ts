@@ -82,10 +82,10 @@ export class CommonBaseClass {
       console.log(
         `${numberArray[i]} is being compared with ${numberArray[i + 1]}`
       );
-      if (numberArray[i] > numberArray[i + 1]) {
-        return true;
+      if (numberArray[i] < numberArray[i + 1]) {
+        return false;
       }
     }
-    return false;
+    return true;
   }
 }
