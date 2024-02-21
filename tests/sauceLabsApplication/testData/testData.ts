@@ -11,3 +11,10 @@ export const filterOption: any = {
   lowToHigh: "Price (low to high)",
   highToLow: "Price (high to low)",
 };
+
+export const productToBeRemoved: string[] = [
+  "Sauce Labs Backpack",
+  "Sauce Labs Onesie",
+  "Sauce Labs Bike Light",
+  "Sauce Labs Bolt T-Shirt",
+];

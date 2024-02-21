@@ -1,5 +1,5 @@
 import { test } from "@playwright/test";
-import { filterOption, pageUrlSauceLabs } from "../testData/testData";
+import { filterOption, pageUrlSauceLabs, productToBeRemoved } from "../testData/testData";
 import { SauceLabsBase } from "../pages/SauceLabsBase";
 import { LoginSauceLabsPage } from "../pages/LoginSauceLabsPage";
 import { ProductsPage } from "../pages/ProductsPage";
@@ -43,4 +43,16 @@ test("Executing an e2e TC to login  to Sauce Labs", async ({ page }) => {
   await test.step("Comparing the Price is as per the filter", async () => {
     await productsPage.validateTheProductsPriceInOrder();
   });
+  await test.step("Add the list of products available", async () => {
+    await productsPage.addProductsToCart(productToBeRemoved);
+    await productsPage.verifyAddProductSuccessful(productToBeRemoved);
+  });
+  await test.step("Remove products added", async () => {
+    
+    await productsPage.removeProductsFromCart(productToBeRemoved);
+  });
+
+
 });
+
+

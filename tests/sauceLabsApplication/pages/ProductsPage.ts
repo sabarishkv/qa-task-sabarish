@@ -15,7 +15,8 @@ const productsPageValidations: string[] = [
 let productPrices: string[] = [],
   indexVal: number,
   productPriceNumbers: number[] = [],
-  titles: string[] = [];
+  titles: string[] = [],
+  productTittle: string;
 
 export class ProductsPage extends SauceLabsBase {
   filterDropdown = () => this.page.locator("//select[contains(@class,'sort')]");
@@ -27,6 +28,19 @@ export class ProductsPage extends SauceLabsBase {
   activeFilterOptionValue = () => "//span[contains(@class,'active_option')]";
   nameTittles = () =>
     this.page.locator("//div[@id='inventory_container']//a/div");
+  addToCartButtons = () =>
+    this.page.locator(
+      "//div[contains(text(),'" +
+        productTittle +
+        "')]/ancestor::div[contains(@class,'item_description')]//button[contains(text(),'Add to cart')]"
+    );
+    removeFromCartButtons = () =>
+    this.page.locator(
+      "//div[contains(text(),'" +
+        productTittle +
+        "')]/ancestor::div[contains(@class,'item_description')]//button[contains(text(),'Remove')]"
+    );
+
 
   async validatingProductsPageElements(): Promise<void> {
     console.log("The elements validation is started on the Products page");
@@ -192,4 +206,44 @@ export class ProductsPage extends SauceLabsBase {
 
     return true; // All strings are in alphabetical order
   }
+
+  async addProductsToCart(availableProductNames: string[]): Promise<void> {
+    console.log(`Entered the method addProductsToCart`);
+    for (let cart = 0; cart < availableProductNames.length; cart++) {
+      productTittle = availableProductNames[cart];
+      console.log(`The product ${productTittle} will be selected`);
+      await this.clickCtaButton(this.addToCartButtons());
+      console.log(`The locator ${this.addToCartButtons()} Product is added`);
+    }
+    console.log(
+      `The available products in the ${availableProductNames} are selected`
+    );
+  }
+
+  async verifyAddProductSuccessful(availableProductNames: string[]): Promise<void> {
+    console.log(`Entered the method verifyAddProductSuccessful`);
+    for (let cart = 0; cart < availableProductNames.length; cart++) {
+      productTittle = availableProductNames[cart];
+      console.log(`Verifying whether ${productTittle} is visible`);
+      await expect(this.removeFromCartButtons()).toBeVisible();
+      console.log(`The ${this.removeFromCartButtons()} is visible`)
+    }
+    console.log(
+      `The available products in the ${availableProductNames} are visible`
+    );
+  }
+
+  async removeProductsFromCart(availableProductNames: string[]): Promise<void> {
+    console.log(`Entered the method removeProductsFromCart`);
+    for (let cart = 0; cart < availableProductNames.length; cart++) {
+      productTittle = availableProductNames[cart];
+      console.log(`The product ${productTittle} will be removed`);
+      await this.clickCtaButton(this.removeFromCartButtons());
+      console.log(`The locator ${this.removeFromCartButtons()} Product is removed`);
+    }
+    console.log(
+      `The available products in the ${availableProductNames} are removed`
+    );
+  }
+
 }
