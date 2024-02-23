@@ -1,19 +1,25 @@
-import { test } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 import {
   filterOption,
   pageUrlSauceLabs,
+  productToBeAdded,
   productToBeRemoved,
 } from "../testData/testData";
 import { SauceLabsBase } from "../pages/SauceLabsBase";
 import { LoginSauceLabsPage } from "../pages/LoginSauceLabsPage";
 import { ProductsPage } from "../pages/ProductsPage";
+import { CartPage } from "../pages/CartPage";
 
-//test.use({ launchOptions: { slowMo: 100 } });
+test.use({
+  viewport: { width: 1440, height: 779 },
+  launchOptions: { slowMo: 400 },
+});
 
 test("Executing an e2e TC to login  to Sauce Labs", async ({ page }) => {
   const sauceLabsBase = new SauceLabsBase(page);
   const loginSauceLabsPage = new LoginSauceLabsPage(page);
   const productsPage = new ProductsPage(page);
+  const cartPage = new CartPage(page);
 
   await test.step("Launch Page URl and and view", async () => {
     await sauceLabsBase.launchSauceLabs(pageUrlSauceLabs);
@@ -58,8 +64,16 @@ test("Executing an e2e TC to login  to Sauce Labs", async ({ page }) => {
     await productsPage.verifyRemoveProductSuccessful(productToBeRemoved);
   });
   await test.step("Add the list of products available", async () => {
-    await productsPage.addProductsToCart(productToBeRemoved);
-    await productsPage.verifyAddProductSuccessful(productToBeRemoved);
+    await productsPage.addProductsToCart(productToBeAdded);
+    await productsPage.verifyAddProductSuccessful(productToBeAdded);
   });
 
+  await test.step("Verify the cart button to navigate to cartPage", async () => {
+    await productsPage.verifyCtaButton(productToBeAdded);
+  });
+  await test.step("Verify the cart page over to the cartPage", async () => {
+    await cartPage.clickCartButton();
+    await cartPage.validateCartPageLoaded();
+    await page.pause();
+  });
 });

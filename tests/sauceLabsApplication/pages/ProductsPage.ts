@@ -40,6 +40,10 @@ export class ProductsPage extends SauceLabsBase {
         productTittle +
         "')]/ancestor::div[contains(@class,'item_description')]//button[contains(text(),'Remove')]"
     );
+    cartCtaButton = () =>
+    this.page.locator("//div[@id='shopping_cart_container']");
+    cartProductsValue =()=> this.page.locator("//div[@id='shopping_cart_container']//span");
+
 
 
   async validatingProductsPageElements(): Promise<void> {
@@ -256,6 +260,14 @@ export class ProductsPage extends SauceLabsBase {
     console.log(
       `The available products in the ${availableProductNames} are visible`
     );
+  }
+
+  async verifyCtaButton(availableProductsCount: string[]): Promise<void>{
+    console.log("Entering method to Verify the cart CTA button");
+    let countOfArray: number = availableProductsCount.length;
+    console.log(`Length of the array is ${countOfArray}`)
+    await expect(this.cartCtaButton()).toBeVisible();
+    await expect(this.cartProductsValue()).toHaveText(countOfArray.toString())
   }
 
 
