@@ -18,3 +18,7 @@ export const productToBeRemoved: string[] = [
   "Sauce Labs Bike Light",
   "Sauce Labs Bolt T-Shirt",
 ];
+export const productToBeAdded: string[] = [
+"Sauce Labs Fleece Jacket",
+"Sauce Labs Onesie",
+];

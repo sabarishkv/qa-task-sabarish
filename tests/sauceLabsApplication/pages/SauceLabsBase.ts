@@ -88,4 +88,5 @@ export class SauceLabsBase extends CommonBaseClass {
     }
     console.log("Entered values will are displayed above");
   }
+
 }

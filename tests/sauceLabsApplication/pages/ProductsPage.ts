@@ -245,5 +245,18 @@ export class ProductsPage extends SauceLabsBase {
       `The available products in the ${availableProductNames} are removed`
     );
   }
+  async verifyRemoveProductSuccessful(availableProductNames: string[]): Promise<void> {
+    console.log(`Entered the method verifyRemoveProductSuccessful`);
+    for (let cart = 0; cart < availableProductNames.length; cart++) {
+      productTittle = availableProductNames[cart];
+      console.log(`Verifying whether ${productTittle} is visible`);
+      await expect(this.addToCartButtons()).toBeVisible();
+      console.log(`The ${this.addToCartButtons()} is visible`)
+    }
+    console.log(
+      `The available products in the ${availableProductNames} are visible`
+    );
+  }
+
 
 }
