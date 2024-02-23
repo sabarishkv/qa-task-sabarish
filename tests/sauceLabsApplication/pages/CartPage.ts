@@ -21,4 +21,18 @@ export class CartPage extends SauceLabsBase {
     await this.page.waitForLoadState("domcontentloaded");
     await expect(this.cartPageHeading()).toBeVisible({timeout: 100*1000});
   }
+
+  async addedProductsOnCartPage(availableProductNames: string[]): Promise<void>{
+    console.log("Entered the method to verify the products on the Cart page");
+    for (let cart = 0; cart < availableProductNames.length; cart++) {
+        productTittle = availableProductNames[cart];
+        console.log(`Verifying whether ${productTittle} is visible`);
+        await expect(this.cartPageProducts()).toBeVisible();
+        console.log(`The ${this.cartPageProducts()} is visible`)
+      }
+      console.log(
+        `The available products in the ${availableProductNames} are visible`
+      );
+  
+  }
 }

@@ -12,7 +12,7 @@ import { CartPage } from "../pages/CartPage";
 
 test.use({
   viewport: { width: 1440, height: 779 },
-  launchOptions: { slowMo: 400 },
+  launchOptions: { slowMo: 600 },
 });
 
 test("Executing an e2e TC to login  to Sauce Labs", async ({ page }) => {
@@ -74,6 +74,9 @@ test("Executing an e2e TC to login  to Sauce Labs", async ({ page }) => {
   await test.step("Verify the cart page over to the cartPage", async () => {
     await cartPage.clickCartButton();
     await cartPage.validateCartPageLoaded();
+  });
+  await test.step("Verify the added products on the cartPage", async () => {
+    await cartPage.addedProductsOnCartPage(productToBeAdded);
     await page.pause();
   });
 });
