@@ -6,7 +6,7 @@ import fs from "fs";
 export let onlyPrice: number[] = [],
   onlyNumber: number[];
 
-export let csvRecords: any;
+export let csvInfoPageRecords: any[] = [];
 
 export class CommonBaseClass {
   protected page: Page;
@@ -95,12 +95,12 @@ export class CommonBaseClass {
   }
 
   async readCSVFileData(inputPath: string): Promise<any> {
-    csvRecords = parse(fs.readFileSync(path.join(__dirname, `${inputPath}`)), {
+    csvInfoPageRecords = parse(fs.readFileSync(inputPath),{fromLine: 2}), {
       columns: true,
-      skip_empty_lines: true,
-    });
-    console.log(csvRecords);
-    return csvRecords;
+      skip_empty_lines: true, 
+    };
+    console.log(csvInfoPageRecords);
+    return csvInfoPageRecords;
   }
 }
 
