@@ -1,7 +1,12 @@
 import { Locator, Page, devices } from "@playwright/test";
+import { parse } from "csv-parse/sync";
+import path from "path";
+import fs from "fs";
 
 export let onlyPrice: number[] = [],
   onlyNumber: number[];
+
+export let csvRecords: any;
 
 export class CommonBaseClass {
   protected page: Page;
@@ -88,4 +93,31 @@ export class CommonBaseClass {
     }
     return true;
   }
+
+  async readCSVFileData(inputPath: string): Promise<any> {
+    csvRecords = parse(fs.readFileSync(path.join(__dirname, `${inputPath}`)), {
+      columns: true,
+      skip_empty_lines: true,
+    });
+    console.log(csvRecords);
+    return csvRecords;
+  }
 }
+
+export const projectDirectory: string = process.cwd();
+console.log(projectDirectory);
+
+export const fileSeparator = path.sep;
+console.log(fileSeparator);
+
+export const testDataFolder: string =
+  projectDirectory +
+  fileSeparator +
+  "tests" +
+  fileSeparator +
+  "sauceLabsApplication" +
+  fileSeparator +
+  "testData";
+
+export const testDataCSVFolder: string =
+  'sauceLabsApplication' + fileSeparator + "testData";

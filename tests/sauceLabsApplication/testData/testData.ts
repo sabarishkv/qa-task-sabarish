@@ -22,3 +22,6 @@ export const productToBeAdded: string[] = [
 "Sauce Labs Fleece Jacket",
 "Sauce Labs Onesie",
 ];
+
+
+export const infoPageFields: string[] = ['first-name','last-name','postal-code']

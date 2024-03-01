@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 import {
   filterOption,
+  infoPageFields,
   pageUrlSauceLabs,
   productToBeAdded,
   productToBeRemoved,
@@ -9,17 +10,21 @@ import { SauceLabsBase } from "../pages/SauceLabsBase";
 import { LoginSauceLabsPage } from "../pages/LoginSauceLabsPage";
 import { ProductsPage } from "../pages/ProductsPage";
 import { CartPage } from "../pages/CartPage";
+import { YourInformationPage } from "../pages/YourInformationPage";
+import { fileSeparator, testDataCSVFolder, testDataFolder } from "../../common/CommonBaseClass";
 
 test.use({
   viewport: { width: 1440, height: 779 },
   launchOptions: { slowMo: 600 },
 });
 
+
 test("Executing an e2e TC to login  to Sauce Labs", async ({ page }) => {
   const sauceLabsBase = new SauceLabsBase(page);
   const loginSauceLabsPage = new LoginSauceLabsPage(page);
   const productsPage = new ProductsPage(page);
   const cartPage = new CartPage(page);
+  const yourInformationPage = new YourInformationPage(page)
 
   await test.step("Launch Page URl and and view", async () => {
     await sauceLabsBase.launchSauceLabs(pageUrlSauceLabs);
@@ -77,6 +82,18 @@ test("Executing an e2e TC to login  to Sauce Labs", async ({ page }) => {
   });
   await test.step("Verify the added products on the cartPage", async () => {
     await cartPage.addedProductsOnCartPage(productToBeAdded);
-    await page.pause();
   });
+
+  await test.step("Post verification navigating over to the Information page", async () => {
+    await productsPage.verifyCtaButton(productToBeAdded);
+    await cartPage.navigateToInformationPage();
+  });
+
+  await test.step("Filling the verification page",async () => {
+    await yourInformationPage.informationPageConfirmation();
+    console.log(`The folder for Testdata is ${testDataCSVFolder+fileSeparator+'infoPageData.csv'}`)
+    await yourInformationPage.readCSVFileData('infoPageData.csv');
+    await page.pause();
+  })
+  
 });
