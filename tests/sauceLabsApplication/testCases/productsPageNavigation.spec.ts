@@ -11,20 +11,26 @@ import { LoginSauceLabsPage } from "../pages/LoginSauceLabsPage";
 import { ProductsPage } from "../pages/ProductsPage";
 import { CartPage } from "../pages/CartPage";
 import { YourInformationPage } from "../pages/YourInformationPage";
-import { csvInfoPageRecords, fileSeparator, testDataCSVFolder, testDataFolder } from "../../common/CommonBaseClass";
+import {
+  csvInfoPageRecords,
+  fileSeparator,
+  testDataCSVFolder,
+  testDataFolder,
+} from "../../common/CommonBaseClass";
+import { OverviewPage } from "../pages/OverviewPage";
 
 test.use({
   viewport: { width: 1440, height: 779 },
-  launchOptions: { slowMo: 600 },
+ // launchOptions: { slowMo: 600 },
 });
-
 
 test("Executing an e2e TC to login  to Sauce Labs", async ({ page }) => {
   const sauceLabsBase = new SauceLabsBase(page);
   const loginSauceLabsPage = new LoginSauceLabsPage(page);
   const productsPage = new ProductsPage(page);
   const cartPage = new CartPage(page);
-  const yourInformationPage = new YourInformationPage(page)
+  const yourInformationPage = new YourInformationPage(page);
+  const overviewPage = new OverviewPage(page);
 
   await test.step("Launch Page URl and and view", async () => {
     await sauceLabsBase.launchSauceLabs(pageUrlSauceLabs);
@@ -49,6 +55,7 @@ test("Executing an e2e TC to login  to Sauce Labs", async ({ page }) => {
   await test.step("Comparing the Price is as per the filter", async () => {
     await productsPage.validateTheProductsPriceInOrder();
   });
+
   await test.step("The Price is split for the Products", async () => {
     await productsPage.changeFilterOption(filterOption.nameZtoA);
     await productsPage.storeAvailableProductsTittles();
@@ -89,13 +96,32 @@ test("Executing an e2e TC to login  to Sauce Labs", async ({ page }) => {
     await cartPage.navigateToInformationPage();
   });
 
-  await test.step("Filling the verification page",async () => {
+  await test.step("Filling the verification page", async () => {
+    await page.waitForTimeout(4000);
     await yourInformationPage.informationPageConfirmation();
-    console.log(`The folder for Testdata is ${testDataCSVFolder+fileSeparator+'infoPageData.csv'}`)
-    await yourInformationPage.readCSVFileData(testDataFolder+fileSeparator+'infoPageData.csv');
-    for(const testDataRecords of csvInfoPageRecords){
-      await yourInformationPage.fillInformationPageDetails(testDataRecords[0],testDataRecords[1],testDataRecords[2])
+    console.log(
+      `The folder for Testdata is ${
+        testDataCSVFolder + fileSeparator + "infoPageData.csv"
+      }`
+    );
+    await yourInformationPage.readCSVFileData(
+      testDataFolder + fileSeparator + "infoPageData.csv"
+    );
+    for (const testDataRecords of csvInfoPageRecords) {
+      await yourInformationPage.fillInformationPageDetails(
+        testDataRecords[0],
+        testDataRecords[1],
+        testDataRecords[2]
+      );
     }
-  })
-  
+  });
+
+  await test.step("Navigating over to information page", async () => {
+    await yourInformationPage.continueButtonInformation();
+  });
+
+  await test.step("Navigating over to information page and verifying the products", async () => {
+    await overviewPage.overviewPageVerification();
+    await overviewPage.verifyProductPage(productToBeAdded);
+  });
 });

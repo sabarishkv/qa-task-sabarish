@@ -10,7 +10,8 @@ export class YourInformationPage extends SauceLabsBase {
   checkOutHeading = () =>
     "//span[contains(text(),'Checkout: Your Information')]";
 
-  infoPageInputField = () => this.page.locator(`//input[@id=${fieldName}]`);
+  infoPageInputField = () => this.page.locator(`//input[@id=${fieldName}]/parent::div`);
+  continueInfoButton = () => this.page.locator("//input[@id='continue']")
 
   async fillInformationPageDetails(
     testUserName: string,
@@ -41,5 +42,10 @@ export class YourInformationPage extends SauceLabsBase {
       console.log(`The ${this.infoPageInputField()} is visible`);
     }
     console.log(`The available products in the ${fieldID} are visible`);
+  }
+
+  async continueButtonInformation(): Promise<void>{
+    console.log("Entering the method to proceed to click on Continue");
+    await this.clickCtaButton(this.continueInfoButton());
   }
 }
