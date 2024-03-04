@@ -123,5 +123,21 @@ test("Executing an e2e TC to login  to Sauce Labs", async ({ page }) => {
   await test.step("Navigating over to information page and verifying the products", async () => {
     await overviewPage.overviewPageVerification();
     await overviewPage.verifyProductPage(productToBeAdded);
+    await overviewPage.storeTaxPrice();
+    await overviewPage.exactTaxValue();
   });
+
+  await test.step("Verifying the total amount", async () => {
+    await overviewPage.storeOverviewProductsPrice();
+    await overviewPage.storeTheUpdatedOverviewProducts();
+    await overviewPage.storeTaxPrice();
+    await overviewPage.exactTaxValue();
+    await overviewPage.taxNumberConversion();
+    await overviewPage.verifyTotalAmount();
+    await overviewPage.exactTotalAmount();
+    await overviewPage.totalNumberConversion();
+    await overviewPage.totalPlusTax();
+    await overviewPage.totalPlusTexSum();
+    await overviewPage.verifyTheTotalGiven();
+  })
 });

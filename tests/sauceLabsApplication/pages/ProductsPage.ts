@@ -12,7 +12,7 @@ const productsPageValidations: string[] = [
   "//div[contains(normalize-space(),'Terms of Service') and contains(@class,'footer_copy')]",
 ];
 
-let productPrices: string[] = [],
+export let productPrices: string[] = [],
   indexVal: number,
   productPriceNumbers: number[] = [],
   titles: string[] = [],
@@ -34,17 +34,16 @@ export class ProductsPage extends SauceLabsBase {
         productTittle +
         "')]/ancestor::div[contains(@class,'item_description')]//button[contains(text(),'Add to cart')]"
     );
-    removeFromCartButtons = () =>
+  removeFromCartButtons = () =>
     this.page.locator(
       "//div[contains(text(),'" +
         productTittle +
         "')]/ancestor::div[contains(@class,'item_description')]//button[contains(text(),'Remove')]"
     );
-    cartCtaButton = () =>
+  cartCtaButton = () =>
     this.page.locator("//div[@id='shopping_cart_container']");
-    cartProductsValue =()=> this.page.locator("//div[@id='shopping_cart_container']//span");
-
-
+  cartProductsValue = () =>
+    this.page.locator("//div[@id='shopping_cart_container']//span");
 
   async validatingProductsPageElements(): Promise<void> {
     console.log("The elements validation is started on the Products page");
@@ -66,9 +65,10 @@ export class ProductsPage extends SauceLabsBase {
     );
     console.log("Products Prices are stored successful");
     await this.displayTheArrayValues(productPrices);
+    
   }
 
-  async storeTheUpdatedProducts(): Promise<void> {
+  async storeTheUpdatedProducts(): Promise<any> {
     console.log(
       "Entering the method to separate the dollar and store the String"
     );
@@ -224,13 +224,15 @@ export class ProductsPage extends SauceLabsBase {
     );
   }
 
-  async verifyAddProductSuccessful(availableProductNames: string[]): Promise<void> {
+  async verifyAddProductSuccessful(
+    availableProductNames: string[]
+  ): Promise<void> {
     console.log(`Entered the method verifyAddProductSuccessful`);
     for (let cart = 0; cart < availableProductNames.length; cart++) {
       productTittle = availableProductNames[cart];
       console.log(`Verifying whether ${productTittle} is visible`);
       await expect(this.removeFromCartButtons()).toBeVisible();
-      console.log(`The ${this.removeFromCartButtons()} is visible`)
+      console.log(`The ${this.removeFromCartButtons()} is visible`);
     }
     console.log(
       `The available products in the ${availableProductNames} are visible`
@@ -243,32 +245,34 @@ export class ProductsPage extends SauceLabsBase {
       productTittle = availableProductNames[cart];
       console.log(`The product ${productTittle} will be removed`);
       await this.clickCtaButton(this.removeFromCartButtons());
-      console.log(`The locator ${this.removeFromCartButtons()} Product is removed`);
+      console.log(
+        `The locator ${this.removeFromCartButtons()} Product is removed`
+      );
     }
     console.log(
       `The available products in the ${availableProductNames} are removed`
     );
   }
-  async verifyRemoveProductSuccessful(availableProductNames: string[]): Promise<void> {
+  async verifyRemoveProductSuccessful(
+    availableProductNames: string[]
+  ): Promise<void> {
     console.log(`Entered the method verifyRemoveProductSuccessful`);
     for (let cart = 0; cart < availableProductNames.length; cart++) {
       productTittle = availableProductNames[cart];
       console.log(`Verifying whether ${productTittle} is visible`);
       await expect(this.addToCartButtons()).toBeVisible();
-      console.log(`The ${this.addToCartButtons()} is visible`)
+      console.log(`The ${this.addToCartButtons()} is visible`);
     }
     console.log(
       `The available products in the ${availableProductNames} are visible`
     );
   }
 
-  async verifyCtaButton(availableProductsCount: string[]): Promise<void>{
+  async verifyCtaButton(availableProductsCount: string[]): Promise<void> {
     console.log("Entering method to Verify the cart CTA button");
     let countOfArray: number = availableProductsCount.length;
-    console.log(`Length of the array is ${countOfArray}`)
+    console.log(`Length of the array is ${countOfArray}`);
     await expect(this.cartCtaButton()).toBeVisible();
-    await expect(this.cartProductsValue()).toHaveText(countOfArray.toString())
+    await expect(this.cartProductsValue()).toHaveText(countOfArray.toString());
   }
-
-
 }

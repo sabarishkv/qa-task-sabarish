@@ -1,5 +1,7 @@
 import { Locator, expect } from "@playwright/test";
 import { CommonBaseClass } from "../../common/CommonBaseClass";
+ 
+export let locatorText : string|null;
 
 export class SauceLabsBase extends CommonBaseClass {
   async launchSauceLabs(url: string): Promise<void> {
@@ -132,5 +134,12 @@ export class SauceLabsBase extends CommonBaseClass {
       console.log("Retrying the element verification over the page:  ");
       await expect.soft(pageLocator).toBeVisible();
     }
+  }
+
+  async storeTextContent(pageLocator: Locator): Promise<string|null>{
+    console.log(`Entered the method store the text content of ${pageLocator}`);
+     locatorText = await pageLocator.textContent();
+     console.log(`The text available in the locator is ${locatorText}`);
+     return locatorText;
   }
 }
