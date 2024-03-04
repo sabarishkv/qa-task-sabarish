@@ -1,5 +1,7 @@
 import { Locator, expect } from "@playwright/test";
 import { CommonBaseClass } from "../../common/CommonBaseClass";
+ 
+export let locatorText : string|null;
 
 export class SauceLabsBase extends CommonBaseClass {
   async launchSauceLabs(url: string): Promise<void> {
@@ -54,13 +56,15 @@ export class SauceLabsBase extends CommonBaseClass {
   ): Promise<void> {
     console.log("Enter the method to store the Locator values");
     await this.page.waitForTimeout(6000);
-    console.log(`${pageLocator} is passed`)
+    console.log(`${pageLocator} is passed`);
     let countTest: any = await this.page.locator(pageLocator).count();
     console.log("Count of locators available in Page:  " + countTest);
     for (let arrayIndex = 0; arrayIndex < countTest; arrayIndex++) {
-      let updateLocator: string = `(${pageLocator})[${(arrayIndex+1)}]`;
-      console.log(`Created new locator: ${updateLocator}`)
-      let productPrice: any = await this.page.locator(updateLocator).textContent();
+      let updateLocator: string = `(${pageLocator})[${arrayIndex + 1}]`;
+      console.log(`Created new locator: ${updateLocator}`);
+      let productPrice: any = await this.page
+        .locator(updateLocator)
+        .textContent();
       console.log(`Added the ${productPrice} to index : ${arrayIndex}`);
       arrayString.push(productPrice);
     }
@@ -87,5 +91,55 @@ export class SauceLabsBase extends CommonBaseClass {
       console.log(`The index value ins ${txt} is ${arrayValues[txt]}`);
     }
     console.log("Entered values will are displayed above");
+  }
+
+  async verifyProductsDisplayed(
+    availableProductNames: string[],
+    productLocator: string,
+    productsName: string
+  ): Promise<void> {
+    console.log(`Entered the method verifyAddProductSuccessful`);
+    for (let cart = 0; cart < availableProductNames.length; cart++) {
+      productsName = availableProductNames[cart];
+      console.log(`Verifying whether ${productsName} is visible`);
+      await this.page.waitForTimeout(3000);
+      await expect(this.page.locator(productLocator)).toBeVisible();
+      console.log(`The ${productLocator}} is visible`);
+    }
+    console.log(
+      `The available products in the ${availableProductNames} are visible`
+    );
+  }
+
+  async assertPageLocator(pageLocator: Locator): Promise<void> {
+    console.log("Performing the assertion of the element");
+    try {
+      console.log("Trying to Perform assertion on "+pageLocator+"");
+      await expect(pageLocator).toBeVisible();
+    } catch (error) {
+      console.log("The element is not visible over the page:  ", error);
+    } finally {
+      console.log("Retrying the element verification over the page:  ");
+      await expect(pageLocator).toBeVisible();
+    }
+  }
+  async assertPageLocatorSoft(pageLocator: Locator): Promise<void> {
+    console.log("Performing the soft assertion of the element");
+    try {
+      console.log("Trying to Perform soft assertion on "+pageLocator+"");
+      await expect.soft(pageLocator).toBeVisible();
+    } catch (error) {
+      console.log("The element is not visible over the page:  ", error);
+    } finally {
+      console.log("Retrying the element verification over the page:  ");
+      await expect.soft(pageLocator).toBeVisible();
+    }
+  }
+
+  async storeTextContent(pageLocator: Locator): Promise<string|null>{
+    console.log(`Entered the method store the text content of ${pageLocator}`);
+     locatorText = await pageLocator.textContent();
+     console.log(`The text available in the locator is ${locatorText}`);
+     return locatorText;
   }
 }

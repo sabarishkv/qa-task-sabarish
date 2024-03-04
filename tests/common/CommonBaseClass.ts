@@ -1,7 +1,12 @@
 import { Locator, Page, devices } from "@playwright/test";
+import { parse } from "csv-parse/sync";
+import path from "path";
+import fs from "fs";
 
 export let onlyPrice: number[] = [],
   onlyNumber: number[];
+
+export let csvInfoPageRecords: any[] = [];
 
 export class CommonBaseClass {
   protected page: Page;
@@ -82,10 +87,37 @@ export class CommonBaseClass {
       console.log(
         `${numberArray[i]} is being compared with ${numberArray[i + 1]}`
       );
-      if (numberArray[i] > numberArray[i + 1]) {
-        return true;
+      if (numberArray[i] < numberArray[i + 1]) {
+        return false;
       }
     }
-    return false;
+    return true;
+  }
+
+  async readCSVFileData(inputPath: string): Promise<any> {
+    csvInfoPageRecords = parse(fs.readFileSync(inputPath),{fromLine: 2}), {
+      columns: true,
+      skip_empty_lines: true, 
+    };
+    console.log(csvInfoPageRecords);
+    return csvInfoPageRecords;
   }
 }
+
+export const projectDirectory: string = process.cwd();
+console.log(projectDirectory);
+
+export const fileSeparator = path.sep;
+console.log(fileSeparator);
+
+export const testDataFolder: string =
+  projectDirectory +
+  fileSeparator +
+  "tests" +
+  fileSeparator +
+  "sauceLabsApplication" +
+  fileSeparator +
+  "testData";
+
+export const testDataCSVFolder: string =
+  'sauceLabsApplication' + fileSeparator + "testData";
