@@ -18,10 +18,11 @@ import {
   testDataFolder,
 } from "../../common/CommonBaseClass";
 import { OverviewPage } from "../pages/OverviewPage";
+import { CompletePage } from "../pages/CompletePage";
 
 test.use({
   viewport: { width: 1440, height: 779 },
- // launchOptions: { slowMo: 600 },
+  // launchOptions: { slowMo: 600 },
 });
 
 test("Executing an e2e TC to login  to Sauce Labs", async ({ page }) => {
@@ -31,6 +32,7 @@ test("Executing an e2e TC to login  to Sauce Labs", async ({ page }) => {
   const cartPage = new CartPage(page);
   const yourInformationPage = new YourInformationPage(page);
   const overviewPage = new OverviewPage(page);
+  const completePage = new CompletePage(page);
 
   await test.step("Launch Page URl and and view", async () => {
     await sauceLabsBase.launchSauceLabs(pageUrlSauceLabs);
@@ -139,5 +141,17 @@ test("Executing an e2e TC to login  to Sauce Labs", async ({ page }) => {
     await overviewPage.totalPlusTax();
     await overviewPage.totalPlusTexSum();
     await overviewPage.verifyTheTotalGiven();
-  })
+    await overviewPage.completeFinish();
+  });
+
+  await test.step("Navigating to complete page and redirecting over to Home page", async () => {
+    await completePage.verifyCompletePageTittle();
+    await completePage.verifyThankyouMessage();
+    await completePage.dispatchedMessage();
+    await completePage.navigateBackHome();
+  });
+
+  await test.step("Products page validation", async () => {
+    await productsPage.validatingProductsPageElements();
+  });
 });

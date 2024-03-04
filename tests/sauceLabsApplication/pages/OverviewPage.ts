@@ -24,6 +24,7 @@ export class OverviewPage extends SauceLabsBase {
   totalAfterSum = () =>
     this.page.locator("//div[contains(@class,'summary_total')]");
   addedItemPrices = () => "//div[contains(@class,'item_price')]/div";
+  overviewFinishButton = () => this.page.locator("//button[@id='finish']")
 
   async verifyProductPage(availableProductNames: string[]): Promise<void> {
     console.log("Entering the method to verify the Product page");
@@ -160,5 +161,11 @@ export class OverviewPage extends SauceLabsBase {
       );
       expect(false).toBeTruthy();
     }
+  }
+
+  async completeFinish(): Promise<void>{
+    console.log("Proceeding to click on Finish");
+    await this.clickCtaButton(this.overviewFinishButton());
+    console.log("Finish Clicked successful")
   }
 }
