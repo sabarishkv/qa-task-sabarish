@@ -1,4 +1,4 @@
-import { Locator, Page, devices } from "@playwright/test";
+import { Locator, Page, devices, expect } from "@playwright/test";
 import { parse } from "csv-parse/sync";
 import path from "path";
 import fs from "fs";
@@ -102,6 +102,37 @@ export class CommonBaseClass {
     console.log(csvInfoPageRecords);
     return csvInfoPageRecords;
   }
+
+  async newFileUpload(buttonLocator: Locator, fileName: string){
+    console.log(`Preparing to upload File for the locator ${buttonLocator} and ${fileName} `);
+    console.log("The current path for the file separator is:  "+ lamdaTestDataFolder+fileSeparator+fileName)
+    await buttonLocator.setInputFiles(lamdaTestDataFolder+fileSeparator+`${fileName}`);
+  }
+
+  async assertPageLocator(pageLocator: Locator): Promise<void> {
+    console.log("Performing the assertion of the element");
+    try {
+      console.log("Trying to Perform assertion on "+pageLocator+"");
+      await expect(pageLocator).toBeVisible();
+    } catch (error) {
+      console.log("The element is not visible over the page:  ", error);
+    } finally {
+      console.log("Retrying the element verification over the page:  ");
+      await expect(pageLocator).toBeVisible();
+    }
+  }
+  async assertPageLocatorSoft(pageLocator: Locator): Promise<void> {
+    console.log("Performing the soft assertion of the element");
+    try {
+      console.log("Trying to Perform soft assertion on "+pageLocator+"");
+      await expect.soft(pageLocator).toBeVisible();
+    } catch (error) {
+      console.log("The element is not visible over the page:  ", error);
+    } finally {
+      console.log("Retrying the element verification over the page:  ");
+      await expect.soft(pageLocator).toBeVisible();
+    }
+  }
 }
 
 export const projectDirectory: string = process.cwd();
@@ -116,6 +147,15 @@ export const testDataFolder: string =
   "tests" +
   fileSeparator +
   "sauceLabsApplication" +
+  fileSeparator +
+  "testData";
+
+  export const lamdaTestDataFolder: string =
+  projectDirectory +
+  fileSeparator +
+  "tests" +
+  fileSeparator +
+  "LadaTestFileUpload" +
   fileSeparator +
   "testData";
 
