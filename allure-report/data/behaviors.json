@@ -1,1 +1,1 @@
-{"uid":"b1a8273437954620fa374b796ffaacdd","name":"behaviors","children":[{"name":"Executing an e2e TC to login  to Sauce Labs","uid":"1430a2a8dc8b21c0","parentUid":"b1a8273437954620fa374b796ffaacdd","status":"passed","time":{"start":1709709367945,"stop":1709709388904,"duration":20959},"flaky":false,"newFailed":false,"newPassed":false,"newBroken":false,"retriesCount":0,"retriesStatusChange":false,"parameters":["chromium"],"tags":[]}]}
+{"uid":"b1a8273437954620fa374b796ffaacdd","name":"behaviors","children":[]}
