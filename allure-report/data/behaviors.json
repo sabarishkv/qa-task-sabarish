@@ -1,1 +1,1 @@
-{"uid":"b1a8273437954620fa374b796ffaacdd","name":"behaviors","children":[]}
+{"uid":"b1a8273437954620fa374b796ffaacdd","name":"behaviors","children":[{"name":"test","uid":"74ef945f8049bc","parentUid":"b1a8273437954620fa374b796ffaacdd","status":"passed","time":{"start":1724703882397,"stop":1724703885600,"duration":3203},"flaky":false,"newFailed":false,"newPassed":false,"newBroken":false,"retriesCount":0,"retriesStatusChange":false,"parameters":["Mobile Chrome"],"tags":[]}]}

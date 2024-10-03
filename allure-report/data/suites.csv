@@ -1,0 +1,2 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Tue Aug 27 01:54:42 IST 2024","Tue Aug 27 01:54:45 IST 2024","3203","Mobile Chrome","sauceLabsApplication/testCases/interviewTask.spec.ts","","","","test",""
