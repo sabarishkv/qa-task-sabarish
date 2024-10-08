@@ -16,6 +16,8 @@ test("Finding test in array of objects", async ({ page, request }) => {
   var index = -1;
 var needle = "byron.fields@reqres.in";
 
+// https://medium.com/tinytute/how-to-get-index-from-a-json-object-with-value-javascript-a556f93c0194
+
 var filteredRes = responseBody.data.find(function(item, i){
  if(item.email === needle){
    index = i;
