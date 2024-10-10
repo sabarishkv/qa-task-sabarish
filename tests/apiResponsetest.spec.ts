@@ -13,10 +13,15 @@ test("Finding test in array of objects", async ({ page, request }) => {
 
   console.log("specific ", responseBody.data[2].email);
 
+  // need to pass the the unique key and find the kebab menu is enabled or not
+
+  console.log(" // need to pass the the unique key and find the kebab menu is enabled or not // ")
+
   var index = -1;
 var needle = "byron.fields@reqres.in";
 
 // https://medium.com/tinytute/how-to-get-index-from-a-json-object-with-value-javascript-a556f93c0194
+
 
 var filteredRes = responseBody.data.find(function(item, i){
  if(item.email === needle){
@@ -25,9 +30,9 @@ var filteredRes = responseBody.data.find(function(item, i){
  }
 });
 
-console.log("The updated index is: ", index, filteredRes);
+console.log("The searched index is: ", index, filteredRes);
 
-console.log(responseBody.data[index].last_name);
+console.log("The indx of the filtered value  ",responseBody.data[index].last_name);
 });
 
 // test.only('Finding api in pageload ',async ({page,request}) => {
