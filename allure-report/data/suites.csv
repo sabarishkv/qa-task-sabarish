@@ -1,0 +1,2 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Thu Oct 03 13:14:09 IST 2024","Thu Oct 03 13:14:22 IST 2024","12657","chromium","sauceLabsApplication/testCases/loginPage.spec.ts","","","","Executing an e2e TC to login  to Sauce Labs",""

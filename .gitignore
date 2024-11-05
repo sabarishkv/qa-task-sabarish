@@ -6,3 +6,5 @@ node_modules/
 allure-report/
 allure-results/
 testing.ts
+/allure-report/
+/allure-results/
